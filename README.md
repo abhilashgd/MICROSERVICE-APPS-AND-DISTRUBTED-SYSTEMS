@@ -23,7 +23,35 @@
              
 ![Screen Shot 2022-02-04 at 11 38 34 PM](https://user-images.githubusercontent.com/21958756/152582614-288e6df1-1b0a-4b02-937e-9f686ca0a934.png)
 
-             Boot Strap with Gradle, 
+# Boot Strap with Gradle
+
+            % brew install cradle
+            % gradle —version
+            
+            Reference: https://docs.gradle.org/current/samples/sample_building_java_applications.html
+            
+            create a project
+            //cd to a empty project directory
+            % grade init
+            // Select type of project to generate:
+            application
+            //Select implementation language:
+            java
+            //Select build script DSL:
+            Groovy
+            //Select test framework:
+            Junit Jupiter
+            
+            Project name (default: demo): com.abhilashgd
+            Source package (default: demo):abhilashgdservices
+            
+            //TO run the application
+            % ./gradlew run
+            //To build the application
+            %  ./gradlew build
+            
+            //To publish a build scan
+            $ ./gradlew build --scan
 
 
 
