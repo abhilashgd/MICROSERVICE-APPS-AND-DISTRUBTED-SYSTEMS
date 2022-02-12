@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="abhilashgdservices.customer" />
+        <module name="eureka-server" />
+        <module name="fraud" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="abhilashgdservices.buildSrc" target="17" />
+      <module name="abhilashgdservices.buildSrc.main" target="17" />
+      <module name="abhilashgdservices.buildSrc.test" target="17" />
+      <module name="com.abhilashgd" target="17" />
+      <module name="customer" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

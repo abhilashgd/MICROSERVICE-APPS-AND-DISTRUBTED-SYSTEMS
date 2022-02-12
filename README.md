@@ -53,7 +53,27 @@
             //To publish a build scan
             $ ./gradlew build --scan
 
+# DOCKER 
 
+            % docker compose up -d  //-d for detach 
+            % docker compose ps
+
+# PGADMIN
+         
+            //localhost:5050
+            pgadmin master password: password
+            //add a new server
+            name:abhilashgd
+            connection host name: postgres
+                        username: abhilashgd
+                        password: password
+
+# Customer Microservice and Fraud check 
+
+            Features same as CUSTOMER MICRO SERVICE and FRAUD CHECK APP in my repo.
+        
+                
+        
 
 
 
