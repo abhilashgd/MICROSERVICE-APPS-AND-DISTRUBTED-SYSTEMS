@@ -164,8 +164,150 @@
 
             customer config class bean (RestTemplate) must be annotated with 
             @LoadBalanced
+            loadbalancer uses round robin to distribute requests. 
+            create new instances of fraud from 
+            edit configuration-->copy configuration.
+            provide different server port  example (Program arguments --> --server.port=8088) and see application log for request processing
 
-            
+# OPEN FEIGN - CLIENTS MODULE
+
+            https://spring.io/projects/spring-cloud-openfeign
+            https://github.com/OpenFeign/feign
+
+            Feign is a Java to HTTP client binder inspired by Retrofit, JAXRS-2.0, and WebSocket. Feign's first goal was reducing the complexity of binding Denominator uniformly to HTTP APIs regardless of ReSTfulness.
+
+            How to include openfeign: https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/
+
+            //inside main pom dependency management
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+            </dependency>
+
+
+            //Inside customer and fraud pom
+             <dependency>
+            <groupId>com.abhilashgd</groupId>
+            <artifactId>clients</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            </dependency>
+
+            //Customer Application - @EnableFeignClients
+
+            Test using POSTMAN:
+            POST: JSON RAW BODY:
+                        {
+                "firstName": "abhilash",
+                "lastName": "gubbi",
+                "email": "abhilashgd@test.com"
+            }
+
+            check details in DB: http://localhost:5050/browser/#
+            in Fraud DB--> schemas-->Tables--> fraud_check_history
+            run: SELECT * FROM public.fraud_check_history
+                    ORDER BY id ASC 
+
+            in Customer DB--> schemas-->Tables--> customer
+            run: SELECT * FROM customer
+                    ORDER BY id ASC 
+
+#  Notification 
+
+            Clients: notification client
+            module: notification
+            cutomer service class sends notification
+            notification DB
+
+# Distributed Tracing Using Sleuth and Zipkin
+            Sleuth: Spring Cloud Sleuth provides Spring Boot auto-configuration for distributed tracing.
+           Ref:  https://spring.io/projects/spring-cloud-sleuth
+                 https://docs.spring.io/spring-cloud-sleuth/docs/current/reference/html/getting-started.html#getting-started
+                 
+
+           slf4j MDC (mapped diagnostic context) helps us to enrich log data so that we can correlate data across multiple services
+           Zipkin - compatible traces via HTTP. By default it sends them to a Zipkin collector service on localhost {port:9411}
+            //Add below dependency for customer, eureka server, fraud and notification
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-sleuth</artifactId>
+            </dependency>
+
+ **SLEUTH IN ACTION** 
+            Trace ID same across microservices but Span ID different for different microservice
+            Log Details:
+            customer log : INFO [customer,ba9a9bad1e60c5d2,ba9a9bad1e60c5d2]  //Trace ID: ba9a9bad1e60c5d2 Span ID: ba9a9bad1e60c5d
+            fraud log:  INFO [fraud,ba9a9bad1e60c5d2,97968fdf8894c2b8] //Trace ID: ba9a9bad1e60c5d2 Span ID: 97968fdf8894c2b8
+            notification log: INFO [notification,ba9a9bad1e60c5d2,afc5642cafe8377e] //Trace ID: ba9a9bad1e60c5d2 Span ID: afc5642cafe8377e
+
+ **Zipkin In Action**
+            Ref:  https://zipkin.io/
+            Zipkin is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures. Features include both the collection and lookup of this data.
+
+ **Zipkin Container**
+            https://github.com/openzipkin-attic/docker-zipkin/blob/master/docker-compose.yml
+
+            //inside docker-compose.yml
+            zipkin:
+                image: openzipkin/zipkin
+                container_name: zipkin
+                ports:
+                - "9411:9411"
+        
+            % docker logs zipkin
+            http://127.0.0.1:9411/
+             //Add below dependency for customer, eureka server, fraud and notification
+             <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+         </dependency>
+        
+        open: http://127.0.0.1:9411/zipkin/?lookback=15m&endTs=1646494271434&limit=10 and run query.
+        
+
+# //TODO:
+
+# Implement API Gateway with Spring Cloud Gateway
+        Dependency
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+            </dependency>
+
+        Configuring  API Gateway
+
+        cloud:
+          gateway:
+            routes:
+                - id: customer
+                uri: lb://CUSTOMER
+                predicates:
+                    - Path=/api/v1/customers/**
+
+
+
+    POSTMAN Testing:
+        localhost:8083/api/v1/customers
+                {
+            "firstName": "testname",
+            "lastName": "test",
+            "email": "testname@test.com"
+        }
+
+# implementMessage Queues with AMQP and RABBITMQ
+
+    Simulate Slow Response
+    
+# Implement RabbitMQ container, message producer, listener
+# package Microservices to runnable Jars
+# package Jars to docker images
+# implement Kubernetes
+# Deploy Postgres RabbitMQ and Zipkin to k8s 
+# Refactor Microservices for k8s
+# Deploy Microservices to k8s
+# Implement KAFKA
+# implement Spring vault and secret management
+# Implement reporting service
 
                 
         
