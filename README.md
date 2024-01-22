@@ -32,7 +32,7 @@
             
             create a project
             //cd to a empty project directory
-            % grade init
+            % gradle init
             // Select type of project to generate:
             application
             //Select implementation language:
